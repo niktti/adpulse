@@ -1,93 +1,101 @@
-<main>
-    <h1>AdPulse</h1>
-    <p>Analise a rentabilidade das suas campanhas.</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-    <section>
-        <h2>Dados da campanha</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdPulse - Análise de Campanhas</title>
+</head>
 
-        <form id="formCampanha">
+<body>
 
-            <label for="nome">Nome da campanha</label>
-            <input
-                type="text"
-                id="nome"
-                placeholder="Ex: Ebook Finanças"
-                required
-            >
+    <main>
+        <h1>AdPulse</h1>
+        <p>Analise a rentabilidade das suas campanhas.</p>
 
-            <label for="plataforma">Plataforma</label>
-            <select id="plataforma" required>
-                <option value="">Selecione</option>
-                <option value="Meta Ads">Meta Ads</option>
-                <option value="Google Ads">Google Ads</option>
-                <option value="TikTok Ads">TikTok Ads</option>
-                <option value="Outra">Outra</option>
-            </select>
+        <section>
+            <h2>Dados da campanha</h2>
 
-            <label for="investimento">Investimento (R$)</label>
-            <input
-                type="number"
-                id="investimento"
-                step="0.01"
-                min="0"
-                required
-            >
+            <form id="formCampanha">
 
-            <label for="preco">Preço do produto (R$)</label>
-            <input
-                type="number"
-                id="preco"
-                step="0.01"
-                min="0"
-                required
-            >
+                <label for="nome">Nome da campanha</label>
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Ex: Ebook Finanças"
+                    required
+                >
 
-            <label for="taxa">Taxa por venda (R$)</label>
-            <input
-                type="number"
-                id="taxa"
-                step="0.01"
-                min="0"
-                required
-            >
+                <label for="plataforma">Plataforma</label>
+                <select id="plataforma" required>
+                    <option value="">Selecione</option>
+                    <option value="Meta Ads">Meta Ads</option>
+                    <option value="Google Ads">Google Ads</option>
+                    <option value="TikTok Ads">TikTok Ads</option>
+                    <option value="Outra">Outra</option>
+                </select>
 
-            <label for="vendas">Número de vendas</label>
-            <input
-                type="number"
-                id="vendas"
-                min="0"
-                required
-            >
+                <label for="investimento">Investimento (R$)</label>
+                <input type="number" id="investimento" step="0.01" min="0" required>
 
-            <label for="cliques">Número de cliques</label>
-            <input
-                type="number"
-                id="cliques"
-                min="0"
-                required
-            >
+                <label for="preco">Preço do produto (R$)</label>
+                <input type="number" id="preco" step="0.01" min="0" required>
 
-            <button type="submit">
-                Analisar campanha
-            </button>
+                <label for="taxa">Taxa por venda (R$)</label>
+                <input type="number" id="taxa" step="0.01" min="0" required>
 
-        </form>
-    </section>
+                <label for="vendas">Número de vendas</label>
+                <input type="number" id="vendas" min="0" required>
 
-    <section id="resultado">
-        <h2>Resultado da análise</h2>
+                <label for="cliques">Número de cliques</label>
+                <input type="number" id="cliques" min="0" required>
 
-        <p>
-            Faturamento:
-            <strong id="resultadoFaturamento">R$ 0,00</strong>
-        </p>
+                <button type="submit">Analisar campanha</button>
 
-        <p>
-            Lucro:
-            <strong id="resultadoLucro">R$ 0,00</strong>
-        </p>
-    </section>
+            </form>
+        </section>
 
-</main>
+        <section id="resultado">
+            <h2>Resultado da análise</h2>
 
-<script src="script.js"></script>
+            <p>
+                Faturamento:
+                <strong id="resultadoFaturamento">R$ 0,00</strong>
+            </p>
+
+            <p>
+                Lucro:
+                <strong id="resultadoLucro">R$ 0,00</strong>
+            </p>
+
+            <p>
+                CPA:
+                <strong id="resultadoCPA">R$ 0,00</strong>
+            </p>
+
+            <p>
+                CPC:
+                <strong id="resultadoCPC">R$ 0,00</strong>
+            </p>
+
+            <p>
+                ROAS:
+                <strong id="resultadoROAS">0,00x</strong>
+            </p>
+
+            <p>
+                CPA de equilíbrio:
+                <strong id="resultadoCPAMaximo">R$ 0,00</strong>
+            </p>
+
+            <h3 id="diagnostico"></h3>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
