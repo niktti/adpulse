@@ -58,12 +58,20 @@ form.addEventListener("submit", function(event) {
         formatarDinheiro(cpaMaximo);
 
     if (vendas === 0) {
-        diagnostico.textContent = "Campanha ainda não possui vendas.";
-    } else if (cpa < cpaMaximo) {
-        diagnostico.textContent = "Campanha rentável";
-    } else if (Math.abs(cpa - cpaMaximo) < 0.01) {
-        diagnostico.textContent = "Campanha no ponto de equilíbrio";
-    } else {
-        diagnostico.textContent = "Campanha operando com prejuízo";
-    }
+    diagnostico.textContent = "Campanha ainda não possui vendas.";
+} else if (cpa < cpaMaximo) {
+    const diferenca = cpaMaximo - cpa;
+    const percentualAbaixo = (diferenca / cpaMaximo) * 100;
+
+    diagnostico.textContent =
+        `Campanha saudável. Seu CPA está ${percentualAbaixo.toFixed(1)}% abaixo do ponto de equilíbrio, com ${formatarDinheiro(diferenca)} de margem por aquisição.`;
+} else if (Math.abs(cpa - cpaMaximo) < 0.01) {
+    diagnostico.textContent =
+        "Campanha no ponto de equilíbrio. O CPA atual está praticamente igual ao CPA máximo.";
+} else {
+    const diferenca = cpa - cpaMaximo;
+
+    diagnostico.textContent =
+        `Campanha em prejuízo. Seu CPA está ${formatarDinheiro(diferenca)} acima do ponto de equilíbrio.`;
+}
 });
