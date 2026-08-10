@@ -1,4 +1,3 @@
-javascript
 const form = document.getElementById("formCampanha");
 
 const resultadoFaturamento = document.getElementById("resultadoFaturamento");
