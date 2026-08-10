@@ -8,6 +8,11 @@ const resultadoROAS = document.getElementById("resultadoROAS");
 const resultadoCPAMaximo = document.getElementById("resultadoCPAMaximo");
 const diagnostico = document.getElementById("diagnostico");
 
+const listaCampanhas = document.getElementById("listaCampanhas");
+
+let campanhas = JSON.parse(localStorage.getItem("campanhas")) || [];
+
+
 function formatarDinheiro(valor) {
     return valor.toLocaleString("pt-BR", {
         style: "currency",
@@ -15,41 +20,116 @@ function formatarDinheiro(valor) {
     });
 }
 
+
+function salvarCampanhas() {
+    localStorage.setItem("campanhas", JSON.stringify(campanhas));
+}
+
+
+function mostrarCampanhas() {
+    listaCampanhas.innerHTML = "";
+
+    if (campanhas.length === 0) {
+        listaCampanhas.innerHTML = "<p>Nenhuma campanha analisada ainda.</p>";
+        return;
+    }
+
+    campanhas.forEach((campanha) => {
+        const item = document.createElement("div");
+
+        item.innerHTML = `
+            <strong>${campanha.nome}</strong>
+            <span>${campanha.plataforma}</span>
+            <span>Investimento: ${formatarDinheiro(campanha.investimento)}</span>
+            <span>ROAS: ${campanha.roas.toFixed(2).replace(".", ",")}x</span>
+            <span>Lucro: ${formatarDinheiro(campanha.lucro)}</span>
+        `;
+
+        listaCampanhas.appendChild(item);
+    });
+}
+
+
 form.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const investimento = Number(document.getElementById("investimento").value);
-    const preco = Number(document.getElementById("preco").value);
-    const taxa = Number(document.getElementById("taxa").value);
-    const vendas = Number(document.getElementById("vendas").value);
-    const cliques = Number(document.getElementById("cliques").value);
+    const nome = document.getElementById("nome").value;
+    const plataforma = document.getElementById("plataforma").value;
+
+    const investimento = Number(
+        document.getElementById("investimento").value
+    );
+
+    const preco = Number(
+        document.getElementById("preco").value
+    );
+
+    const taxa = Number(
+        document.getElementById("taxa").value
+    );
+
+    const vendas = Number(
+        document.getElementById("vendas").value
+    );
+
+    const cliques = Number(
+        document.getElementById("cliques").value
+    );
+
+
+    // Cálculos principais
 
     const faturamento = preco * vendas;
+
     const custoTaxas = taxa * vendas;
-    const lucro = faturamento - investimento - custoTaxas;
+
+    const lucro =
+        faturamento - investimento - custoTaxas;
+
+
+    // CPA - Custo por aquisição
 
     const cpa = vendas > 0
         ? investimento / vendas
         : 0;
 
+
+    // CPC - Custo por clique
+
     const cpc = cliques > 0
         ? investimento / cliques
         : 0;
+
+
+    // ROAS - Retorno sobre investimento em anúncios
 
     const roas = investimento > 0
         ? faturamento / investimento
         : 0;
 
+
+    // CPA máximo antes de atingir o ponto de equilíbrio
+
     const cpaMaximo = preco - taxa;
 
-    resultadoFaturamento.textContent = formatarDinheiro(faturamento);
-    resultadoLucro.textContent = formatarDinheiro(lucro);
+
+    // Exibe os resultados
+
+    resultadoFaturamento.textContent =
+        formatarDinheiro(faturamento);
+
+    resultadoLucro.textContent =
+        formatarDinheiro(lucro);
 
     resultadoCPA.textContent =
-        vendas > 0 ? formatarDinheiro(cpa) : "Sem vendas";
+        vendas > 0
+            ? formatarDinheiro(cpa)
+            : "Sem vendas";
 
     resultadoCPC.textContent =
-        cliques > 0 ? formatarDinheiro(cpc) : "Sem cliques";
+        cliques > 0
+            ? formatarDinheiro(cpc)
+            : "Sem cliques";
 
     resultadoROAS.textContent =
         `${roas.toFixed(2).replace(".", ",")}x`;
@@ -57,21 +137,69 @@ form.addEventListener("submit", function(event) {
     resultadoCPAMaximo.textContent =
         formatarDinheiro(cpaMaximo);
 
+
+    // Diagnóstico da campanha
+
     if (vendas === 0) {
-    diagnostico.textContent = "Campanha ainda não possui vendas.";
-} else if (cpa < cpaMaximo) {
-    const diferenca = cpaMaximo - cpa;
-    const percentualAbaixo = (diferenca / cpaMaximo) * 100;
 
-    diagnostico.textContent =
-        `Campanha saudável. Seu CPA está ${percentualAbaixo.toFixed(1)}% abaixo do ponto de equilíbrio, com ${formatarDinheiro(diferenca)} de margem por aquisição.`;
-} else if (Math.abs(cpa - cpaMaximo) < 0.01) {
-    diagnostico.textContent =
-        "Campanha no ponto de equilíbrio. O CPA atual está praticamente igual ao CPA máximo.";
-} else {
-    const diferenca = cpa - cpaMaximo;
+        diagnostico.textContent =
+            "Campanha ainda não possui vendas.";
 
-    diagnostico.textContent =
-        `Campanha em prejuízo. Seu CPA está ${formatarDinheiro(diferenca)} acima do ponto de equilíbrio.`;
-}
+    } else if (cpa < cpaMaximo) {
+
+        const diferenca = cpaMaximo - cpa;
+
+        const percentualAbaixo =
+            (diferenca / cpaMaximo) * 100;
+
+        diagnostico.textContent =
+            `Campanha saudável. Seu CPA está ${percentualAbaixo.toFixed(1)}% abaixo do ponto de equilíbrio, com ${formatarDinheiro(diferenca)} de margem por aquisição.`;
+
+    } else if (Math.abs(cpa - cpaMaximo) < 0.01) {
+
+        diagnostico.textContent =
+            "Campanha no ponto de equilíbrio. O CPA atual está praticamente igual ao CPA máximo.";
+
+    } else {
+
+        const diferenca = cpa - cpaMaximo;
+
+        diagnostico.textContent =
+            `Campanha em prejuízo. Seu CPA está ${formatarDinheiro(diferenca)} acima do ponto de equilíbrio.`;
+    }
+
+
+    // Cria registro para o histórico
+
+    const novaCampanha = {
+        nome,
+        plataforma,
+        investimento,
+        faturamento,
+        lucro,
+        cpa,
+        cpc,
+        roas,
+        cpaMaximo
+    };
+
+
+    // Adiciona ao histórico
+
+    campanhas.push(novaCampanha);
+
+
+    // Salva no navegador
+
+    salvarCampanhas();
+
+
+    // Atualiza o histórico na tela
+
+    mostrarCampanhas();
 });
+
+
+// Mostra campanhas salvas quando a página é aberta
+
+mostrarCampanhas();
