@@ -1,3 +1,4 @@
+javascript
 const form = document.getElementById("formCampanha");
 
 const resultadoFaturamento = document.getElementById("resultadoFaturamento");
@@ -12,7 +13,6 @@ const listaCampanhas = document.getElementById("listaCampanhas");
 
 let campanhas = JSON.parse(localStorage.getItem("campanhas")) || [];
 
-
 function formatarDinheiro(valor) {
     return valor.toLocaleString("pt-BR", {
         style: "currency",
@@ -20,11 +20,9 @@ function formatarDinheiro(valor) {
     });
 }
 
-
 function salvarCampanhas() {
     localStorage.setItem("campanhas", JSON.stringify(campanhas));
 }
-
 
 function mostrarCampanhas() {
     listaCampanhas.innerHTML = "";
@@ -48,7 +46,6 @@ function mostrarCampanhas() {
         listaCampanhas.appendChild(item);
     });
 }
-
 
 form.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -76,44 +73,23 @@ form.addEventListener("submit", function(event) {
         document.getElementById("cliques").value
     );
 
-
-    // Cálculos principais
-
     const faturamento = preco * vendas;
-
     const custoTaxas = taxa * vendas;
-
-    const lucro =
-        faturamento - investimento - custoTaxas;
-
-
-    // CPA - Custo por aquisição
+    const lucro = faturamento - investimento - custoTaxas;
 
     const cpa = vendas > 0
         ? investimento / vendas
         : 0;
 
-
-    // CPC - Custo por clique
-
     const cpc = cliques > 0
         ? investimento / cliques
         : 0;
-
-
-    // ROAS - Retorno sobre investimento em anúncios
 
     const roas = investimento > 0
         ? faturamento / investimento
         : 0;
 
-
-    // CPA máximo antes de atingir o ponto de equilíbrio
-
     const cpaMaximo = preco - taxa;
-
-
-    // Exibe os resultados
 
     resultadoFaturamento.textContent =
         formatarDinheiro(faturamento);
@@ -137,39 +113,25 @@ form.addEventListener("submit", function(event) {
     resultadoCPAMaximo.textContent =
         formatarDinheiro(cpaMaximo);
 
-
-    // Diagnóstico da campanha
-
     if (vendas === 0) {
-
         diagnostico.textContent =
             "Campanha ainda não possui vendas.";
-
     } else if (cpa < cpaMaximo) {
-
         const diferenca = cpaMaximo - cpa;
-
         const percentualAbaixo =
             (diferenca / cpaMaximo) * 100;
 
         diagnostico.textContent =
             `Campanha saudável. Seu CPA está ${percentualAbaixo.toFixed(1)}% abaixo do ponto de equilíbrio, com ${formatarDinheiro(diferenca)} de margem por aquisição.`;
-
     } else if (Math.abs(cpa - cpaMaximo) < 0.01) {
-
         diagnostico.textContent =
             "Campanha no ponto de equilíbrio. O CPA atual está praticamente igual ao CPA máximo.";
-
     } else {
-
         const diferenca = cpa - cpaMaximo;
 
         diagnostico.textContent =
             `Campanha em prejuízo. Seu CPA está ${formatarDinheiro(diferenca)} acima do ponto de equilíbrio.`;
     }
-
-
-    // Cria registro para o histórico
 
     const novaCampanha = {
         nome,
@@ -183,23 +145,10 @@ form.addEventListener("submit", function(event) {
         cpaMaximo
     };
 
-
-    // Adiciona ao histórico
-
     campanhas.push(novaCampanha);
 
-
-    // Salva no navegador
-
     salvarCampanhas();
-
-
-    // Atualiza o histórico na tela
-
     mostrarCampanhas();
 });
-
-
-// Mostra campanhas salvas quando a página é aberta
 
 mostrarCampanhas();
