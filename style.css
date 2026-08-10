@@ -1,3 +1,7 @@
+/* =========================
+   CONFIGURAÇÕES GERAIS
+========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +9,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background: #f4f6f8;
     color: #1f2937;
     padding: 40px 20px;
@@ -16,15 +20,27 @@ main {
     margin: 0 auto;
 }
 
+
+/* =========================
+   CABEÇALHO
+========================= */
+
 h1 {
     font-size: 36px;
     margin-bottom: 8px;
+    color: #111827;
 }
 
 main > p {
     margin-bottom: 30px;
     color: #6b7280;
+    font-size: 16px;
 }
+
+
+/* =========================
+   SEÇÕES
+========================= */
 
 section {
     background: #ffffff;
@@ -35,19 +51,26 @@ section {
 }
 
 h2 {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    color: #111827;
 }
+
+
+/* =========================
+   FORMULÁRIO
+========================= */
 
 form {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
 }
 
 label {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: -8px;
+    color: #111827;
 }
 
 input,
@@ -57,29 +80,49 @@ select {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 15px;
+    background: #ffffff;
+    color: #111827;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus,
 select:focus {
     outline: none;
     border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 button {
     grid-column: 1 / -1;
     padding: 14px;
+    margin-top: 4px;
+
     background: #2563eb;
-    color: white;
+    color: #ffffff;
+
     border: none;
     border-radius: 8px;
+
     font-size: 16px;
     font-weight: 600;
+
     cursor: pointer;
+
+    transition: background 0.2s, transform 0.1s;
 }
 
 button:hover {
     background: #1d4ed8;
 }
+
+button:active {
+    transform: scale(0.99);
+}
+
+
+/* =========================
+   RESULTADOS
+========================= */
 
 #resultado {
     display: grid;
@@ -87,19 +130,22 @@ button:hover {
     gap: 16px;
 }
 
-#resultado h2,
-#resultado h3 {
+#resultado h2 {
     grid-column: 1 / -1;
 }
 
 #resultado p {
     background: #f9fafb;
+
     border: 1px solid #e5e7eb;
     border-radius: 10px;
+
     padding: 18px;
+
     display: flex;
     flex-direction: column;
     gap: 8px;
+
     font-size: 14px;
     color: #6b7280;
 }
@@ -109,19 +155,132 @@ button:hover {
     color: #111827;
 }
 
+
+/* =========================
+   DIAGNÓSTICO
+========================= */
+
 #diagnostico {
-    margin-top: 8px;
-    padding: 16px;
+    grid-column: 1 / -1;
+
+    margin-top: 4px;
+    padding: 18px;
+
     border-radius: 10px;
+
     background: #eef2ff;
+    border: 1px solid #c7d2fe;
+
+    color: #3730a3;
+
+    font-size: 16px;
+    line-height: 1.5;
 }
 
+
+/* =========================
+   HISTÓRICO
+========================= */
+
+#historico {
+    margin-top: 24px;
+}
+
+#historico h2 {
+    margin-bottom: 20px;
+}
+
+#listaCampanhas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#listaCampanhas > p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+#listaCampanhas > div {
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        1fr
+        1.4fr
+        0.8fr
+        1.2fr;
+
+    gap: 16px;
+
+    align-items: center;
+
+    padding: 16px 18px;
+
+    background: #f9fafb;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+#listaCampanhas > div:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 12px
+        rgba(0, 0, 0, 0.06);
+}
+
+#listaCampanhas strong {
+    color: #111827;
+    font-size: 15px;
+}
+
+#listaCampanhas span {
+    color: #4b5563;
+    font-size: 14px;
+}
+
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
 @media (max-width: 768px) {
+
+    body {
+        padding: 24px 14px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    section {
+        padding: 20px;
+    }
+
     form {
         grid-template-columns: 1fr;
     }
 
+    button {
+        grid-column: 1;
+    }
+
     #resultado {
         grid-template-columns: 1fr;
+    }
+
+    #resultado h2,
+    #diagnostico {
+        grid-column: 1;
+    }
+
+    #listaCampanhas > div {
+        grid-template-columns: 1fr;
+        gap: 7px;
     }
 }
